@@ -1,8 +1,14 @@
+import { queryClient } from '@/lib/api-client'
+import { QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NEXT_PUBLIC_ENV === 'development') {
     require('../lib/mock/worker')
   }
-  return <Component {...pageProps} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+    </QueryClientProvider>
+  )
 }

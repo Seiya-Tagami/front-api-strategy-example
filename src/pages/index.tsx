@@ -1,6 +1,9 @@
+import { useQueryUsers } from '@/hooks/users'
 import Head from 'next/head'
 
 export default function Home() {
+  const { data, isLoading } = useQueryUsers()
+
   return (
     <>
       <Head>
@@ -12,9 +15,18 @@ export default function Home() {
       <main>
         <section>
           <h2>Get Users</h2>
-          <ul>
-            <li></li>
-          </ul>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <ul className="my-5">
+              {data?.map((user) => (
+                <li key={user.id}>{user.id} - {user.name} | {user.belonging}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+        <section>
+          <h2>Delete User</h2>
         </section>
       </main>
     </>
