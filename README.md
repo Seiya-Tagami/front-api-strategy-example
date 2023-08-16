@@ -6,6 +6,46 @@
 - TanStack Query (React Query)
 - Mock Service Worker
 
+### ディレクトリ構成
+
+```
+src/
+├── hooks
+│   ├── users
+│   │   ├── useMutationUsers.ts
+│   │   └── useQueryUsers.ts
+│   └── utils
+│       └── userError.ts
+├── lib
+│   ├── api-client.ts
+│   └── mock
+│       ├── browser.ts
+│       ├── handlers.ts
+│       ├── server.ts
+│       └── worker.ts
+├── models
+│   └── user_model.ts
+├── pages
+│
+├── repositories
+│   └── user_repository.ts
+└── utils
+```
+
+### 始め方
+
+1. 必要なモジュールをインストール
+
+```bash
+$ pnpm i
+```
+
+2. プロジェクト起動 & msw 起動
+
+```bash
+$ pnpm run dev
+```
+
 ### 参考記事
 
 - TanStack Query  
