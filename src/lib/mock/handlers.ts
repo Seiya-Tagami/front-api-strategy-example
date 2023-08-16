@@ -40,9 +40,9 @@ export const handlers = [
       ctx.json(mock_arr)
     );
   }),
-  rest.delete("/mock/users", (req, res, ctx) => {
-    const id = req.url.searchParams.get('id')
-    // if (id) mock_map.delete(id)
+  rest.delete("/mock/users/:id", (req, res, ctx) => {
+    const { id } = req.params
+    if (id) mock_map.delete(id as string)
 
     return res(
       ctx.status(204)

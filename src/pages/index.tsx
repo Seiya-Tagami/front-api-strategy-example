@@ -1,8 +1,30 @@
-import { useQueryUsers } from '@/hooks/users'
+import { useMutationUsers } from '@/hooks/users/useMutationUsers'
+import { useQueryUsers } from '@/hooks/users/useQueryUsers'
+import { User } from '@/models/user_model'
 import Head from 'next/head'
+import { ChangeEvent, useState } from 'react'
 
 export default function Home() {
   const { data, isLoading } = useQueryUsers()
+  const { deleteUserMutation } = useMutationUsers()
+  const [name, setName] = useState<string>('')
+  const [belonging, setBelonging] = useState<string>('')
+
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value)
+  }
+
+  const handleBelonging = (e: ChangeEvent<HTMLInputElement>) => {
+    setBelonging(e.target.value)
+  }
+
+  const handleAdd = () => {
+    console.log(name, belonging)
+  }
+
+  const handleDelete = (id: string) => {
+    deleteUserMutation.mutate(id)
+  }
 
   return (
     <>
@@ -14,19 +36,27 @@ export default function Home() {
       </Head>
       <main>
         <section>
-          <h2>Get Users</h2>
+          <h2>Get Users / Delete User</h2>
           {isLoading ? (
             <p>Loading...</p>
           ) : (
             <ul className="my-5">
               {data?.map((user) => (
-                <li key={user.id}>{user.id} - {user.name} | {user.belonging}</li>
+                <li key={user.id}>
+                  <span>{user.id} - {user.name} | {user.belonging}</span>
+                  <button style={{ marginLeft: '10px' }} value={user.id} onClick={() => handleDelete(user.id)}>delete</button>
+                </li>
               ))}
             </ul>
           )}
         </section>
         <section>
-          <h2>Delete User</h2>
+          <h2>Create User</h2>
+          <div>
+            <input type="text" placeholder='name' onChange={handleName} />
+            <input type="text" placeholder='belonging' onChange={handleBelonging} />
+            <button onClick={handleAdd}>Add</button>
+          </div>
         </section>
       </main>
     </>
