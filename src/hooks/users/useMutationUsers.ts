@@ -25,6 +25,30 @@ export const useMutationUsers = () => {
     }
   )
 
+  const updateUserMutation = useMutation(
+    (userData: User) => userFactory().update(userData),
+    {
+      onSuccess: (res, variables) => {
+        const previousUsers = queryClient.getQueryData<User[]>(['Users'])
+        if (previousUsers) {
+          queryClient.setQueryData<User[]>(
+            ['users'],
+            previousUsers.map((user) =>
+              user.id === variables.id ? res : user
+            )
+          )
+        }
+      },
+      onError: (err: any) => {
+        if (err.response.data.message) {
+          switchErrorHandling(err.response.data.message)
+        } else {
+          switchErrorHandling(err.response.data)
+        }
+      },
+    }
+  )
+
   const deleteUserMutation = useMutation(
     (userData: Pick<User, 'id'>) => userFactory().delete(userData),
     {
@@ -49,6 +73,7 @@ export const useMutationUsers = () => {
 
   return {
     createUserMutation,
+    updateUserMutation,
     deleteUserMutation,
   }
 }

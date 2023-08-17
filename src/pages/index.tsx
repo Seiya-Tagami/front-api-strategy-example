@@ -58,6 +58,10 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <section>
+        <h2>Update User</h2>
+        <p>フォーム部分は作ってないけど、取得処理は作ってあるよ～</p>
+      </section>
     </>
   )
 }

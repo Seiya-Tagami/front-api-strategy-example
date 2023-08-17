@@ -17,6 +17,10 @@ export const userFactory = () => {
       const response = await repository.createUser(userData)
       return response
     },
+    update: async (userData: User): Promise<User> => {
+      const response = await repository.updateUser(userData)
+      return response
+    },
     delete: async (userData: Pick<User, 'id'>): Promise<void> => {
       repository.deleteUser(userData)
     }
