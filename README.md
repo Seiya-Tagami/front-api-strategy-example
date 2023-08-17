@@ -40,13 +40,15 @@ src/
 $ pnpm i
 ```
 
-2. プロジェクト起動 & msw 起動
+2. `.env.example` をコピーして`.env`に書き換える。
+
+3. プロジェクト起動 & msw 起動
 
 ```bash
 $ pnpm run dev
 ```
 
-3. ブラウザのコンソールで`[MSW] Mocking enabled.`となっているか確認する。
+4. ブラウザのコンソールで`[MSW] Mocking enabled.`となっているか確認する。
 
 ### 参考記事
 
