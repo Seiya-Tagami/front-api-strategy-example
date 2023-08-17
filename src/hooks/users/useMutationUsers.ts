@@ -12,6 +12,7 @@ export const useMutationUsers = () => {
       onSuccess: (res) => {
         const previousUsers = queryClient.getQueryData<User[]>(["users"])
         if (previousUsers) {
+          // キャッシュの更新
           queryClient.setQueryData(['users'], [...previousUsers, res])
         }
       },
@@ -31,6 +32,7 @@ export const useMutationUsers = () => {
       onSuccess: (res, variables) => {
         const previousUsers = queryClient.getQueryData<User[]>(['Users'])
         if (previousUsers) {
+          // キャッシュの更新
           queryClient.setQueryData<User[]>(
             ['users'],
             previousUsers.map((user) =>
@@ -55,6 +57,7 @@ export const useMutationUsers = () => {
       onSuccess: (_, variables) => {
         const previousUsers = queryClient.getQueryData<User[]>(['users'])
         if (previousUsers) {
+          // キャッシュの更新
           queryClient.setQueryData(
             ['users'],
             previousUsers.filter((user) => user.id !== variables.id)

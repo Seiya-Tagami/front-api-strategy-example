@@ -58,7 +58,7 @@ export const handlers = [
     const { name, belonging } = await req.json()
     const id = uuidv4()
     const newUser = {
-      id: id,
+      id,
       name,
       belonging
     }
@@ -68,12 +68,26 @@ export const handlers = [
       ctx.json(newUser)
     )
   }),
+  rest.patch("/mock/users/:id", async (req, res, ctx) => {
+    const { id } = req.params
+    const { name, belonging } = await req.json()
+    const updatedUser = {
+      id,
+      name,
+      belonging
+    }
+    mock_map.set(id, updatedUser)
+    return res(
+      ctx.status(204),
+      ctx.json(updatedUser)
+    )
+  }),
   rest.delete("/mock/users/:id", (req, res, ctx) => {
     const { id } = req.params
     if (id) mock_map.delete(id as string)
 
     return res(
-      ctx.status(204)
+      ctx.status(200)
     );
   })
 ];
