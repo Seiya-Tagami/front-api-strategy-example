@@ -6,7 +6,7 @@
 - TanStack Query (React Query)
 - Mock Service Worker
 
-### ディレクトリ構成
+### ディレクトリ構成(src 配下)
 
 ```
 src/
@@ -45,6 +45,8 @@ $ pnpm i
 ```bash
 $ pnpm run dev
 ```
+
+3. ブラウザのコンソールで`[MSW] Mocking enabled.`となっているか確認する。
 
 ### 参考記事
 
