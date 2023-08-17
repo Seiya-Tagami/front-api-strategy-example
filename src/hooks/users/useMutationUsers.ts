@@ -6,15 +6,34 @@ import { queryClient } from "@/lib/api-client"
 export const useMutationUsers = () => {
   const { switchErrorHandling } = useError()
 
+  const createUserMutation = useMutation(
+    (userData: Omit<User, 'id'>) => userFactory().post(userData),
+    {
+      onSuccess: (res) => {
+        const previousUsers = queryClient.getQueryData<User[]>(["users"])
+        if (previousUsers) {
+          queryClient.setQueryData(['users'], [...previousUsers, res])
+        }
+      },
+      onError: (err: any) => {
+        if (err.response.data.message) {
+          switchErrorHandling(err.response.data.message)
+        } else {
+          switchErrorHandling(err.response.data)
+        }
+      },
+    }
+  )
+
   const deleteUserMutation = useMutation(
-    (id: string) => userFactory().delete(id),
+    (userData: Pick<User, 'id'>) => userFactory().delete(userData),
     {
       onSuccess: (_, variables) => {
         const previousUsers = queryClient.getQueryData<User[]>(['users'])
         if (previousUsers) {
           queryClient.setQueryData(
             ['users'],
-            previousUsers.filter((user) => user.id !== variables)
+            previousUsers.filter((user) => user.id !== variables.id)
           )
         }
       },
@@ -29,6 +48,7 @@ export const useMutationUsers = () => {
   )
 
   return {
+    createUserMutation,
     deleteUserMutation,
   }
 }

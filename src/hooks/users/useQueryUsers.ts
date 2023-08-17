@@ -1,5 +1,3 @@
-
-// import axios from 'axios'
 import { User, userFactory } from '@/models/user_model'
 import { useQuery } from '@tanstack/react-query'
 import { useError } from '../utils/userError'

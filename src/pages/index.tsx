@@ -1,14 +1,13 @@
 import { useMutationUsers } from '@/hooks/users/useMutationUsers'
 import { useQueryUsers } from '@/hooks/users/useQueryUsers'
-import { User } from '@/models/user_model'
 import Head from 'next/head'
 import { ChangeEvent, useState } from 'react'
 
 export default function Home() {
   const { data, isLoading } = useQueryUsers()
-  const { deleteUserMutation } = useMutationUsers()
-  const [name, setName] = useState<string>('')
-  const [belonging, setBelonging] = useState<string>('')
+  const { deleteUserMutation, createUserMutation } = useMutationUsers()
+  const [name, setName] = useState<string>('涼風青葉')
+  const [belonging, setBelonging] = useState<string>('NEWGAME')
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -19,11 +18,11 @@ export default function Home() {
   }
 
   const handleAdd = () => {
-    console.log(name, belonging)
+    createUserMutation.mutate({ name, belonging })
   }
 
   const handleDelete = (id: string) => {
-    deleteUserMutation.mutate(id)
+    deleteUserMutation.mutate({ id })
   }
 
   return (
@@ -43,7 +42,7 @@ export default function Home() {
             <ul className="my-5">
               {data?.map((user) => (
                 <li key={user.id}>
-                  <span>{user.id} - {user.name} | {user.belonging}</span>
+                  <span>{user.name} | {user.belonging}</span>
                   <button style={{ marginLeft: '10px' }} value={user.id} onClick={() => handleDelete(user.id)}>delete</button>
                 </li>
               ))}
@@ -53,8 +52,8 @@ export default function Home() {
         <section>
           <h2>Create User</h2>
           <div>
-            <input type="text" placeholder='name' onChange={handleName} />
-            <input type="text" placeholder='belonging' onChange={handleBelonging} />
+            <input type="text" placeholder='name' value={name} onChange={handleName} />
+            <input type="text" placeholder='belonging' value={belonging} onChange={handleBelonging} />
             <button onClick={handleAdd}>Add</button>
           </div>
         </section>
