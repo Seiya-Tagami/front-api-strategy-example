@@ -1,19 +1,16 @@
 import { rest } from "msw";
 import { v4 as uuidv4 } from 'uuid'
 
-const users: User[] = [
+const users: Omit<User, 'id'>[] = [
   {
-    id: '',
     name: "御坂美琴",
     belonging: "とある科学の超電磁砲"
   },
   {
-    id: '',
     name: "司馬達也",
     belonging: "魔法科高校の劣等生"
   },
   {
-    id: '',
     name: "早川アキ",
     belonging: "チェンソーマン"
   }
@@ -23,10 +20,13 @@ const createMock = () => {
   const mock_map = new Map()
   for (const v of users) {
     const id = uuidv4()
-    v.id = id
-    mock_map.set(id, v)
+    const mock_user = {
+      id,
+      name: v.name,
+      belonging: v.belonging
+    }
+    mock_map.set(id, mock_user)
   }
-
   return mock_map
 }
 
