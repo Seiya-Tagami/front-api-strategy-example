@@ -5,9 +5,13 @@ import { ChangeEvent, useState } from 'react'
 
 export default function Home() {
   const { data, isLoading } = useQueryUsers()
-  const { deleteUserMutation, createUserMutation } = useMutationUsers()
+  const { deleteUserMutation, createUserMutation, updateUserMutation } = useMutationUsers()
   const [name, setName] = useState<string>('涼風青葉')
   const [belonging, setBelonging] = useState<string>('NEWGAME')
+
+  const [id, setId] = useState<string>('');
+  const [newName, setNewName] = useState<string>('山田リョウ')
+  const [newBelonging, setNewBelonging] = useState<string>('ぼっちざろっく')
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -17,8 +21,24 @@ export default function Home() {
     setBelonging(e.target.value)
   }
 
+  const handleId = (e: ChangeEvent<HTMLInputElement>) => {
+    setId(e.target.value)
+  }
+
+  const handleNewName = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewName(e.target.value)
+  }
+
+  const handleNewBelonging = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewBelonging(e.target.value)
+  }
+
   const handleAdd = () => {
     createUserMutation.mutate({ name, belonging })
+  }
+
+  const handleUpdate = (id: string, name: string, belonging: string) => {
+    updateUserMutation.mutate({ id, name, belonging })
   }
 
   const handleDelete = (id: string) => {
@@ -44,6 +64,7 @@ export default function Home() {
                 <li key={user.id}>
                   <span>{user.name} | {user.belonging}</span>
                   <button style={{ marginLeft: '10px' }} value={user.id} onClick={() => handleDelete(user.id)}>delete</button>
+                  <span> id : {user.id}</span>
                 </li>
               ))}
             </ul>
@@ -60,7 +81,12 @@ export default function Home() {
       </main>
       <section>
         <h2>Update User</h2>
-        <p>フォーム部分は作ってないけど、取得処理は作ってあるよ～</p>
+        <div>
+          <input type="text" placeholder='id' value={id} onChange={handleId} />
+          <input type="text" placeholder='name' value={newName} onChange={handleNewName} />
+          <input type="text" placeholder='belonging' value={newBelonging} onChange={handleNewBelonging} />
+          <button onClick={() => handleUpdate(id, newName, newBelonging)}>Update</button>
+        </div>
       </section>
     </>
   )
