@@ -6,7 +6,6 @@ import { GetServerSideProps } from "next";
 import Image from "next/image";
 
 export default function Component({ session }: { session: any }) {
-
 	if (session) {
 		return (
 			<>
@@ -44,13 +43,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 			const decodedToken = jwt.verify(accessToken, seacretkey);
 		} catch (error) {
 			if (error instanceof jwt.TokenExpiredError) {
-				// トークンの有効期限が切れた場合、ユーザーをログアウトさせます。
+				// トークンの有効期限が切れた場合、ユーザーをログアウトさせる
 				signOut();
 			}
 		}
-	}
-	
-	console.log(session)
+	}	
 	
 	return {
 		props: { session }

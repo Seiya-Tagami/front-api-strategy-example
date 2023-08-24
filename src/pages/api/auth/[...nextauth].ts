@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
 
 				const myToken = jwt.sign(jwtClaims, jwtSeacret, {
 					algorithm: 'HS256',
-					expiresIn: '360d',
+					expiresIn: '365d',
 				});
 
 				token.access_token = myToken;
@@ -54,15 +54,12 @@ declare module 'next-auth' {
 	}
 	interface Session {
 		user: {
-			/** Oauth access token */
 			access_token?: string
 		} & DefaultSession['user']
 	}
 }
 declare module 'next-auth/jwt' {
-	/** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
 	interface JWT {
-		/** OpenID ID Token */
 		access_token?: string
 	}
 }
