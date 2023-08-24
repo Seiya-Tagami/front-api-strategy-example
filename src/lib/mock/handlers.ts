@@ -78,7 +78,7 @@ export const handlers = [
     }
     mock_map.set(id, updatedUser)
     return res(
-      ctx.status(204),
+      ctx.status(200),
       ctx.json(updatedUser)
     )
   }),

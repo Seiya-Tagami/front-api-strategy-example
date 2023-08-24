@@ -30,7 +30,7 @@ export const useMutationUsers = () => {
     (userData: User) => userFactory().update(userData),
     {
       onSuccess: (res, variables) => {
-        const previousUsers = queryClient.getQueryData<User[]>(['Users'])
+        const previousUsers = queryClient.getQueryData<User[]>(["users"])
         if (previousUsers) {
           // キャッシュの更新
           queryClient.setQueryData<User[]>(
